@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        
+// 四、手写实现 MyPromise 源码
+
+const PENDING = "PENDING";
+const FULFILLED = "FULFILLED";
+const REJECTED = "REJECTED";
+
+class MyPromise {
+    //定义一个状态
+    status = "PENDING";
+    value = undefined;
+    constructor(fn){
+        //立即执行所传的函数
+        fn(this.resolve,this.reject);
+    }
+
+    resolve=(value)=>{
+        if(this.status!=PENDING) return;
+        this.status = FULFILLED;
+        this.value = value;
+    }
+
+    reject=(error)=>{
+        if(this.status!=PENDING) return;
+        this.status = REJECTED;
+        this.value = error;
+    }
+
+    then=(successCallBack,failedCallBack)=>{
+        if(this.status==FULFILLED){
+            successCallBack(this.value);
+        }else if(this.status==REJECTED){
+            failedCallBack(this.value);
+        }
+    }
+}
+
+let promise = new MyPromise(function(resolve,reject){
+    resolve(2);
+})
+
+promise.then(function(value){
+   console.log(value);
+})
+
+    </script>
+</body>
+</html>
