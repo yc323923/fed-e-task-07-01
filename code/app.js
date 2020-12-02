@@ -22,12 +22,12 @@
 // }, 10);
 //参考代码
 
-// Promise.resolve("hello").then(function(a){
-//     let b = "lagou";
-//     return a + " " + b;
-// }).then(function(c){
-//     console.log(c +" I ❤️ U");
-// })
+Promise.resolve("hello").then(function(a){
+    let b = "lagou";
+    return a + " " + b;
+}).then(function(c){
+    console.log(c +" I ❤️ U");
+})
 
 
 
@@ -58,31 +58,31 @@ let isLastInStock = function (cars) {
 
 //> 先定义获取最后一条数据的函数，再定义获取某个对象中的 in_stock 属性的函数，再用 fp.flowRight 组合函数
 
-// function getLast (array){
-//     return fp.last(array);
-// }
+function getLast (array){
+    return fp.last(array);
+}
 
-// function getInStock(obj){
-//     return fp.prop("in_stock",obj);
-// }
+function getInStock(obj){
+    return fp.prop("in_stock",obj);
+}
 
-// let getValue = fp.flowRight(getInStock,getLast);
-// console.log("输出结果",getValue(cars));
+let getValue = fp.flowRight(getInStock,getLast);
+console.log("输出结果",getValue(cars));
 
 //#### 练习2：使用 fp.flowRight()、fp.prop() 和 fp.first() 获取第一个 car 的 name
 
 //> 先定义获取第一条数据的函数，再定义获取某个对象中的 name 属性的函数，再用 fp.flowRight 组合函数
 
-// function getFirst(array){
-//     return fp.first(array);
-// }
+function getFirst(array){
+    return fp.first(array);
+}
 
-// function getName(obj){
-//     return fp.prop("name",obj);
-// }
+function getName(obj){
+    return fp.prop("name",obj);
+}
 
-// let getResult = fp.flowRight(getName,getFirst);
-// console.log("输出结果",getResult(cars));//输出结果 Ferrari FF
+let getResult = fp.flowRight(getName,getFirst);
+console.log("输出结果",getResult(cars));//输出结果 Ferrari FF
 
 //#### 练习3：使用帮助函数 _average 重构 averageDollarValue，使用函数组合的方式实现
 
@@ -93,17 +93,17 @@ let _average = function (xs) {
 
 //> 先定义获取某个对象中的 dollar_value 属性的函数，将该函数作为 fp.map 的数组元素处理函数，再用 fp.flowRight 组合函数
 
-// function getDolarValue(obj){
-//     return fp.prop("dollar_value",obj);
-// }
+function getDolarValue(obj){
+    return fp.prop("dollar_value",obj);
+}
 
-// function dealData(cars){
-//     return fp.map(getDolarValue,cars);
-// }
+function dealData(cars){
+    return fp.map(getDolarValue,cars);
+}
 
-// let averageDollarValue = fp.flowRight(_average,dealData);
+let averageDollarValue = fp.flowRight(_average,dealData);
 
-// console.log(averageDollarValue(cars));//318200
+console.log(averageDollarValue(cars));//318200
 
 
 
@@ -115,15 +115,15 @@ let _underscore = fp.replace(/\W+/g, '_') // 无须改动，并在 sanitizeNames
 
 //> 先定义获取某个对象中的 name 属性的函数，再定义转化为小写的函数，再将空格和下划线替换，,再用 fp.flowRight 组合函数
 
-// function getName(obj){
-//     return fp.prop("name",obj);
-// }
-// function converterToLower(value){
-//     return fp.toLower(value)
-// }
+function getName(obj){
+    return fp.prop("name",obj);
+}
+function converterToLower(value){
+    return fp.toLower(value)
+}
 
-// let sanitizeNames = fp.flowRight(_underscore,converterToLower,getName);
-// console.log(sanitizeNames(fp.first(cars)));
+let sanitizeNames = fp.flowRight(_underscore,converterToLower,getName);
+console.log(sanitizeNames(fp.first(cars)));
 
 
 //### 三、基于下面提供的代码，完成后续的四个练习
@@ -162,11 +162,11 @@ class Maybe {
 
 
 
-// let maybe = Maybe.of([5,6,1]);
-// let ex1 = (value) => {
-//     console.log(fp.map(function(value){return fp.add(value,1)},value))
-// }
-// maybe.map(ex1)
+let maybe = Maybe.of([5,6,1]);
+let ex1 = (value) => {
+    console.log(fp.map(function(value){return fp.add(value,1)},value))
+}
+maybe.map(ex1)
 
 
 
@@ -179,11 +179,11 @@ class Maybe {
 //#### 练习2：实现一个函数 ex2，能够使用 fp.first 获取列表的第一个元素
 
 
-// let xs = Container.of(['do', 'ray', 'me', 'fa', 'so', 'la', 'ti', 'do'])
-// let ex2 = (value) => {
-//     return fp.first(value);
-// }
-// console.log(xs.map(ex2));
+let xs = Container.of(['do', 'ray', 'me', 'fa', 'so', 'la', 'ti', 'do'])
+let ex2 = (value) => {
+    return fp.first(value);
+}
+console.log(xs.map(ex2));
 
 
 
@@ -192,15 +192,15 @@ class Maybe {
 //#### 练习3：实现一个函数 ex3，使用 safeProp 和 fp.first 找到 user 的名字的首字母
 
 
-// let safeProp = fp.curry(function(x, o){
-//     return Maybe.of(o[x])
-// })
-// let user = { id: 2, name: 'Albert' }
-// let ex3 = (obj) => {
-//     return fp.first(safeProp("name",obj)._value);
-// }
+let safeProp = fp.curry(function(x, o){
+    return Maybe.of(o[x])
+})
+let user = { id: 2, name: 'Albert' }
+let ex3 = (obj) => {
+    return fp.first(safeProp("name",obj)._value);
+}
 
-// console.log(ex3(user));
+console.log(ex3(user));
 
 
 //> 调用 ex3 函数传入 user 对象，safeProp 是经过柯里化处理的，可以先传“属性”参数，后传“对象”参数。safeProp 函数处理后返回 user 的值，再调用fp.first 获取首字母
@@ -212,15 +212,15 @@ class Maybe {
 //#### 练习4：使用 Maybe 重写 ex4，不要有 if 语句
 
 
-// let ex4 = function(n){
-//     if(n){
-//         return parseInt(n)
-//     }
-// }
+let ex4 = function(n){
+    if(n){
+        return parseInt(n)
+    }
+}
 
 
-// //> MayBe 函子用来处理外部的空值情况，防止空值的异常，拿到函子的值之后进行 parseInt 转化
-// Maybe.of(n).map(function(x){parseInt(x)});
+//> MayBe 函子用来处理外部的空值情况，防止空值的异常，拿到函子的值之后进行 parseInt 转化
+Maybe.of(n).map(function(x){parseInt(x)});
 
 
 
@@ -268,4 +268,396 @@ let promise = new MyPromise(function (resolve, reject) {
 promise.then(function (value) {
     console.log(value);
 })
+
+
+
+const PENDING = "PENDING";
+
+const FULFILLED = "FULFILLED";
+
+const REJECTED = "REJECTED";
+
+ 
+
+class MyPromise{
+
+    status = PENDING;
+
+    value = undefined;
+
+    successCallBackFuncs = [];
+
+    rejectCallBackFuncs = [];
+
+    constructor(func){
+
+        try {
+
+            func(this.resolve,this.reject)
+
+        } catch (error) {
+
+            this.reject(error)
+
+        }
+
+     
+
+    }
+
+ 
+
+    resolve=(value)=>{
+
+        if(this.status===PENDING) {
+
+            this.status = FULFILLED;
+
+            this.value = value;
+
+            this.successCallBackFuncs.forEach(fn => {
+
+                fn();
+
+            });
+
+        }
+
+    }
+
+ 
+
+    reject=(value)=>{
+
+        if(this.status==PENDING){
+
+            this.status = REJECTED;
+
+            this.value = value;
+
+            this.rejectCallBackFuncs.forEach(fn => {
+
+                fn();
+
+            });
+
+        } 
+
+    }
+
+ 
+
+    then=(successCallBack,failedCallBack)=>{
+
+        successCallBack = successCallBack? successCallBack:v=>v
+
+        failedCallBack = failedCallBack? failedCallBack:v=>v
+
+        let newPromise = new MyPromise((res,rej)=>{
+
+            setTimeout(() => {
+
+                if(this.status==FULFILLED){
+
+                    try {
+
+                        let result = successCallBack(this.value);
+
+                        this.dealData(newPromise,result,res,rej)
+
+                    } catch (error) {
+
+                        rej(error)
+
+                    }
+
+                 
+
+                 }else if(this.status==REJECTED){
+
+                     try {
+
+                        let result = failedCallBack(this.value)
+
+                        this.dealData(newPromise,result,res,rej)
+
+                     } catch (error) {
+
+                         rej(error)
+
+                     }
+
+                  
+
+                 }else{//处理异步，此时状态还是pending，需要将回调函数存起来
+
+                     this.successCallBackFuncs.push(()=>{
+
+                            try {
+
+                                let result = successCallBack(this.value);
+
+                                this.dealData(newPromise,result,res,rej)
+
+                            } catch (error) {
+
+                                rej(error)
+
+                            }
+
+                        });
+
+                     this.rejectCallBackFuncs.push(()=>{
+
+                        try {
+
+                            let result =  failedCallBack(this.value);
+
+                            this.dealData(newPromise,result,res,rej)
+
+                        } catch (error) {
+
+                            rej(error)
+
+                        }
+
+                        });
+
+                 }
+
+            }, 0);
+
+ 
+
+        })
+
+        return newPromise;
+
+    }
+
+ 
+
+    static all(arr){
+
+        let newArr = [];
+
+        let index = 0;
+
+        let promise = new MyPromise(function(res,rej){
+
+            arr.forEach(function(value,index){
+
+                if(value instanceof MyPromise){
+
+                    value.then(function(value){newArr[index] = value; resArr(res);})
+
+                   
+
+                }else{
+
+                    newArr[index] = arr[index];
+
+                    resArr(res);
+
+                }
+
+            })
+
+        })
+
+        function resArr(res){
+
+           index++;
+
+            if(index===arr.length){
+
+                res(newArr);
+
+            }
+
+          
+
+        }
+
+        return promise;
+
+    }
+
+ 
+
+    catch=(fn)=>{
+
+        return this.then(undefined, fn)
+
+    }
+
+ 
+
+    dealData(newPromise,result,res,rej){
+
+        if(newPromise===result){
+
+             rej(new Error("Chaining cycle detected for promise #<Promise>"));
+
+             return;
+
+        }
+
+        if(result instanceof MyPromise){
+
+            result.then(res,rej)
+
+            return;
+
+        } 
+
+        res(result);
+
+    }
+
+ 
+
+    finally (callback) {
+
+        return this.then(value => {
+
+          return MyPromise.resolve(callback()).then(() => value);
+
+        }, reason => {
+
+          return MyPromise.resolve(callback()).then(() => { throw reason })
+
+        })
+
+      }
+
+      
+
+    static resolve(value){
+
+        if(value instanceof MyPromise) return value;
+
+        return new MyPromise(function(res,rej){res(value)})
+
+    }
+
+ 
+
+}
+
+ 
+
+// let promise = new MyPromise(function(res,rej){
+
+//     // setTimeout(function(){
+
+//     //     res(4)
+
+//     // },2000)
+
+//     // throw new Error("你是错的")
+
+//     res("23")
+
+//     // rej("2")
+
+// })
+
+ 
+
+function p1(){
+
+    return new MyPromise(function(res,rej){
+
+        setTimeout(()=>{
+
+            res("p1")
+
+        },3000)
+
+    })
+
+}
+
+function p2(){
+
+    return new MyPromise(function(res,rej){
+
+         res("p2")
+
+    })
+
+}
+
+ 
+
+MyPromise.all(["1","2",p1(),p2()]).then(function(res){
+
+    console.log(res)
+
+})
+
+ 
+
+// promise.then().then().then(v=>console.log(v))
+
+ 
+
+// let promise2 = promise.then(function(value){
+
+//     console.log(value);
+
+//     throw new Error("CUO")
+
+//     return 45;
+
+// },function(error){console.log(error.message)}).then(function(){},function(err){console.log(err.message)})
+
+ 
+
+// promise2.then(function(val){console.log(val)},function(err){console.log(err)});
+
+// .then(function(val){
+
+//     console.log(val)
+
+// }).then(function(val){
+
+//     console.log(val)
+
+// })
+
+// promise.then(function(val){
+
+//     console.log(val)
+
+// },function(err){
+
+//     console.log(err)
+
+// });
+
+ 
+
+// promise.then(function(val){
+
+//     console.log(val)
+
+// },function(err){
+
+//     console.log(err)
+
+// });
+
+ 
+
+// promise.then(function(val){
+
+//     console.log(val)
+
+// },function(err){
+
+//     console.log(err)
+
+// });
 
